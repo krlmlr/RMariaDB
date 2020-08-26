@@ -81,6 +81,10 @@ setMethod("dbWriteTable", c("MariaDBConnection", "character", "data.frame"),
            overwrite = FALSE, append = FALSE, ...,
            temporary = FALSE) {
 
+    if (!is.data.frame(value))  {
+      stopc("`value` must be data frame")
+    }
+    
     row.names <- compatRowNames(row.names)
 
     if ((!is.logical(row.names) && !is.character(row.names)) || length(row.names) != 1L)  {
@@ -357,7 +361,7 @@ setMethod("dbDataType", "MariaDBConnection", function(dbObj, obj, ...) {
 #' @export
 #' @rdname dbDataType
 setMethod("dbDataType", "MariaDBDriver", function(dbObj, obj, ...) {
-  if (is.factor(obj)) return("TEXT")
+  if (is.factor(obj)) get_char_type(levels(obj))
   if (inherits(obj, "POSIXct")) return("DATETIME")
   if (inherits(obj, "Date")) return("DATE")
   if (inherits(obj, "difftime")) return("TIME")
@@ -368,8 +372,17 @@ setMethod("dbDataType", "MariaDBDriver", function(dbObj, obj, ...) {
     logical = "TINYINT",
     integer = "INTEGER",
     double = "DOUBLE",
-    character = "TEXT",
+    character = get_char_type(obj),
     list = "BLOB",
     stop("Unsupported type", call. = FALSE)
   )
 })
+
+get_char_type <- function(x) {
+  width <- max(max(nchar(enc2utf8(x)), na.rm = TRUE), 1)
+  if (width > 255) {
+    "TEXT"
+  } else {
+    paste0("VARCHAR(", width, ")")
+  }
+}

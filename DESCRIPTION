@@ -1,6 +1,6 @@
 Package: RMariaDB
 Title: Database Interface and 'MariaDB' Driver
-Version: 1.0.8.9000
+Version: 1.0.11
 Authors@R: 
     c(person(given = "Kirill",
              family = "M\u00fcller",
@@ -54,7 +54,7 @@ LinkingTo:
 Encoding: UTF-8
 NeedsCompilation: yes
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1.9000
 SystemRequirements: libmariadb-client-lgpl-dev or
     libmariadbclient-dev or libmysqlclient-dev, with libssl-dev (deb),
     mariadb-connector-c-devel or mariadb-devel (rpm),

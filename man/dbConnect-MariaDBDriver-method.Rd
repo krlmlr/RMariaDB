@@ -22,7 +22,8 @@
   ssl.capath = NULL,
   ssl.cipher = NULL,
   ...,
-  bigint = c("integer64", "integer", "numeric", "character")
+  bigint = c("integer64", "integer", "numeric", "character"),
+  timeout = 10
 )
 
 MariaDB()
@@ -74,8 +75,11 @@ encryption.}
 \item{...}{Unused, needed for compatibility with generic.}
 
 \item{bigint}{The R type that 64-bit integer types should be mapped to,
-default is \link[bit64:integer64]{bit64::integer64}, which allows the full range of 64 bit
+default is \link[bit64:bit64-package]{bit64::integer64}, which allows the full range of 64 bit
 integers.}
+
+\item{timeout}{Connection timeout, in seconds. Use \code{Inf} or a negative value
+for no timeout.}
 }
 \description{
 These methods are straight-forward implementations of the corresponding
